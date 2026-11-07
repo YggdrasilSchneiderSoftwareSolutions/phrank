@@ -34,7 +34,9 @@ class App {
     }
 
     private function registerRoute($method, $route, $handler) {
-        // TODO Basepath muss noch dazu, damit alle routes das Projekt vorne haben
+        // TODO BasePath konfigurieren, damit dieser nicht in den Routen angegeben werden muss
+        //$route = $this->basePath . $route;
+        echo "Registering route: $method $route\n"; // Debug-Ausgabe
         $this->registeredRoutes[$method][$route] = $handler;
     }
 }
