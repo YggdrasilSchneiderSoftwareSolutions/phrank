@@ -1,7 +1,11 @@
 <?php
-require __DIR__ . '/core/Phrank.php';
+require_once __DIR__ . '/core/Phrank.php';
 
-get('/phrank', function() {
+configure(function($config) {
+    $config->setBasePath('/phrank');
+});
+
+get('/', function() {
     echo "Hello World!";
 });
 
