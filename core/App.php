@@ -6,10 +6,15 @@ require_once __DIR__ . '/Configuration.php';
 class App {
     private array $registeredRoutes;
     private Configuration $config;
+    private $beforeMiddleware;
+    private $afterMiddleware;
+
 
     public function __construct() {
         $this->registeredRoutes = [];
         $this->config = new Configuration();
+        $this->beforeMiddleware = null;
+        $this->afterMiddleware = null;
 
         // Default Konfiguration setzen
         $this->config->setEnvironment('development');
@@ -24,6 +29,22 @@ class App {
         }
     }
 
+    public function before(callable $callback): void {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException("The provided before middleware is not callable.");
+        }
+        echo "Before middleware registered.<br>";
+        $this->beforeMiddleware = $callback;
+    }
+
+    public function after(callable $callback): void {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException("The provided after middleware is not callable.");
+        }
+        echo "After middleware registered.<br>";
+        $this->afterMiddleware = $callback;
+    }
+
     public function get(string $route, callable $handler): void {
         // Wir normalieren den Pfad (abschließende Slashes entfernen)
         $trimmedPath = rtrim($route, '/') ?: '/';
@@ -31,6 +52,11 @@ class App {
     }
 
     public function run(): void {
+        // Vor der Anfrage Middleware ausführen, falls vorhanden
+        if (isset($this->beforeMiddleware)) {
+            ($this->beforeMiddleware)();
+        }
+
         $request = $_SERVER['REQUEST_URI'];
         // Entfernt eventuelle Query-Strings (?id=123) für sauberes Matching
         $uri = parse_url($request, PHP_URL_PATH);
@@ -50,6 +76,11 @@ class App {
                 http_response_code(404);
                 echo 'Unsupported route: ' . $_SERVER['SCRIPT_URI'];
             }
+        }
+
+        // Nach der Anfrage Middleware ausführen, falls vorhanden
+        if (isset($this->afterMiddleware)) {
+            ($this->afterMiddleware)();
         }
     }
 

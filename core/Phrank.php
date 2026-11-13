@@ -13,12 +13,14 @@ function configure(callable $callback) {
 
 function before(callable $callback) {
     // Hier können Middleware-Funktionen registriert werden, die vor jeder Anfrage ausgeführt werden
-    // $app->addMiddleware($callback);
+    global $app;
+    $app->before($callback);
 }
 
 function after(callable $callback) {
     // Hier können Middleware-Funktionen registriert werden, die nach jeder Anfrage ausgeführt werden
-    // $app->addMiddleware($callback);
+    global $app;
+    $app->after($callback);
 }
 
 function get(string $path, callable $handler) {
