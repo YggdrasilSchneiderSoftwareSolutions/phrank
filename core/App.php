@@ -82,16 +82,13 @@ class App {
             $path = rtrim($uri, '/') ?: '/';
         }
         
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $handler = $this->registeredRoutes['GET'][$path];
-            if (isset($handler)) {
-                if (is_callable($handler)) {
-                    $handler();
-                }
-            } else {
-                http_response_code(404);
-                echo 'Unsupported route: ' . $_SERVER['SCRIPT_URI'];
-            }
+        $method = $_SERVER['REQUEST_METHOD'];
+        $handler = $this->registeredRoutes[$method][$path] ?? null;
+        if (is_callable($handler)) {
+            $handler();
+        } else {
+            http_response_code(404);
+            echo 'Unsupported route: ' . $_SERVER['SCRIPT_URI'];
         }
 
         // Nach der Anfrage Middleware ausführen, falls vorhanden
