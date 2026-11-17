@@ -10,28 +10,28 @@ The following snippet shows the basic routing API:
 
 ```php
 get('/hello', function () {
-	echo 'Hello, World!';
+    echo 'Hello, World!';
 });
 
 post('/hello', function () {
-	http_response_code(201);
+    http_response_code(201);
 });
 
 put('/hello', function () {
-	http_response_code(204);
+    http_response_code(204);
 });
 
 patch('/hello', function () {
-	http_response_code(204);
+    http_response_code(204);
 });
 
 delete('/hello', function () {
-	http_response_code(204);
+    http_response_code(204);
 });
 
 options('/hello', function () {
-	header('Allow: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-	http_response_code(204);
+    header('Allow: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    http_response_code(204);
 });
 
 run();
@@ -45,11 +45,11 @@ Parameterized REST paths and dedicated request and response objects are planned 
 
 ```php
 get('/api', function () {
-	$id = $_GET['id'] ?? null;
+    $id = $_GET['id'] ?? null;
 });
 
 post('/api', function () {
-	$data = json_decode(file_get_contents('php://input'), true);
+    $data = json_decode(file_get_contents('php://input'), true);
 });
 ```
 
@@ -59,17 +59,17 @@ Use `configure()` to set the base path, environment, and debug mode. The `before
 
 ```php
 configure(function ($config) {
-	$config->setBasePath('/api');
-	$config->setEnvironment('production');
-	$config->setDebugMode(false);
+    $config->setBasePath('/api');
+    $config->setEnvironment('production');
+    $config->setDebugMode(false);
 });
 
 before(function () {
-	header('Content-Type: application/json');
+    header('Content-Type: application/json');
 });
 
 after(function () {
-	error_log('Request dispatched');
+    error_log('Request dispatched');
 });
 ```
 
@@ -85,7 +85,7 @@ NGINX does not read `.htaccess` files. Add a `try_files` rule to the site's `ser
 
 ```nginx
 location / {
-	try_files $uri $uri/ /index.php?$query_string;
+    try_files $uri $uri/ /index.php?$query_string;
 }
 ```
 
