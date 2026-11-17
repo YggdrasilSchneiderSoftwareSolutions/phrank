@@ -1,6 +1,6 @@
 # Phrank
 
-Phrank is a lightweight PHP microframework for building REST APIs. It provides simple HTTP request routing, application configuration, and before/after middleware.
+Phrank is a lightweight PHP microframework for building HTTP APIs, including REST-style APIs. It provides simple HTTP request routing, application configuration, and before/after middleware. It is currently a minimal router rather than a full-featured REST framework.
 
 The framework supports the `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, and `OPTIONS` HTTP methods.
 
@@ -35,6 +35,22 @@ options('/hello', function () {
 });
 
 run();
+```
+
+## Route parameters and request data
+
+Routes are matched by their exact path. Dynamic path parameters such as `/api/{id}` are not supported yet. Pass values in the query string instead, for example `/api?id=123`, and read them from `$_GET`. Request data is not parsed by the framework: read form-encoded POST data from `$_POST`; for JSON bodies and bodies sent with `PUT`, `PATCH`, or `DELETE`, read `php://input` and decode it yourself.
+
+Parameterized REST paths and dedicated request and response objects are planned for a future release; they are not available yet.
+
+```php
+get('/api', function () {
+	$id = $_GET['id'] ?? null;
+});
+
+post('/api', function () {
+	$data = json_decode(file_get_contents('php://input'), true);
+});
 ```
 
 ## Configuration and filters
