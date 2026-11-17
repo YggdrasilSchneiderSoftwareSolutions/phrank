@@ -55,6 +55,21 @@ class App {
         $this->registerRoute('GET',$trimmedPath, $handler);
     }
 
+    public function put(string $route, callable $handler): void {
+        $trimmedPath = rtrim($route, '/') ?: '/';
+        $this->registerRoute('PUT', $trimmedPath, $handler);
+    }
+
+    public function patch(string $route, callable $handler): void {
+        $trimmedPath = rtrim($route, '/') ?: '/';
+        $this->registerRoute('PATCH', $trimmedPath, $handler);
+    }
+
+    public function delete(string $route, callable $handler): void {
+        $trimmedPath = rtrim($route, '/') ?: '/';
+        $this->registerRoute('DELETE', $trimmedPath, $handler);
+    }
+
     public function post(string $route, callable $handler): void {
         // Wir normalisieren den Pfad (abschließende Slashes entfernen)
         $trimmedPath = rtrim($route, '/') ?: '/';

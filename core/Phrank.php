@@ -56,6 +56,36 @@ function post(string $path, callable $handler) {
 }
 
 /**
+ * Register a PUT route
+ * @param string $path The route path
+ * @param callable $handler The handler function for the route
+ */
+function put(string $path, callable $handler) {
+    global $app;
+    $app->put($path, $handler);
+}
+
+/**
+ * Register a PATCH route
+ * @param string $path The route path
+ * @param callable $handler The handler function for the route
+ */
+function patch(string $path, callable $handler) {
+    global $app;
+    $app->patch($path, $handler);
+}
+
+/**
+ * Register a DELETE route
+ * @param string $path The route path
+ * @param callable $handler The handler function for the route
+ */
+function delete(string $path, callable $handler) {
+    global $app;
+    $app->delete($path, $handler);
+}
+
+/**
  * Register an OPTIONS route
  * @param string $path The route path
  * @param callable $handler The handler function for the route
