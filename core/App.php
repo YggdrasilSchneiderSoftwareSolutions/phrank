@@ -22,10 +22,10 @@ class App {
 
     public function configure(callable $callback): void {
         $callback($this->config);
-        if ($this->config->getEnvironment() === 'development') {
+        if ($this->config->isDebugMode()) {
             echo "Configuration set:<br>";
             echo "BasePath: " . $this->config->getBasePath() . "<br>";
-            echo "Environment: " . $this->config->getEnvironment() . "<br>";
+            echo "Environment: " . $this->config->getEnvironment() . "<br><br>";
         }
     }
 
@@ -33,7 +33,9 @@ class App {
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException("The provided before middleware is not callable.");
         }
-        echo "Before middleware registered.<br>";
+        if ($this->config->isDebugMode()) {
+            echo "Before middleware registered.<br>";
+        }
         $this->beforeMiddleware = $callback;
     }
 
@@ -41,14 +43,28 @@ class App {
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException("The provided after middleware is not callable.");
         }
-        echo "After middleware registered.<br>";
+        if ($this->config->isDebugMode()) {
+            echo "After middleware registered.<br>";
+        }
         $this->afterMiddleware = $callback;
     }
 
     public function get(string $route, callable $handler): void {
         // Wir normalieren den Pfad (abschließende Slashes entfernen)
         $trimmedPath = rtrim($route, '/') ?: '/';
-        $this->registerRoute('GET',$route, $handler);
+        $this->registerRoute('GET',$trimmedPath, $handler);
+    }
+
+    public function post(string $route, callable $handler): void {
+        // Wir normalisieren den Pfad (abschließende Slashes entfernen)
+        $trimmedPath = rtrim($route, '/') ?: '/';
+        $this->registerRoute('POST', $trimmedPath, $handler);
+    }
+
+    public function options(string $route, callable $handler): void {
+        // Wir normalisieren den Pfad (abschließende Slashes entfernen)
+        $trimmedPath = rtrim($route, '/') ?: '/';
+        $this->registerRoute('OPTIONS', $trimmedPath, $handler);
     }
 
     public function run(): void {
@@ -89,8 +105,8 @@ class App {
         $route = $this->config->getBasePath() . $route;
         $this->registeredRoutes[$method][$route] = $handler;
 
-        if ($this->config->getEnvironment() === 'development') {
-            echo "Registered route: $method $route<br><br>";
+        if ($this->config->isDebugMode()) {
+            echo "Registered route: $method $route<br>";
         }
     }
 }

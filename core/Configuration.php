@@ -4,6 +4,7 @@ namespace Phrank;
 class Configuration {
     private string $basePath;
     private string $environment;
+    private bool $debugMode;
 
     // TODO Custom configuration options can be added here
     //private array $config = [];
@@ -11,6 +12,7 @@ class Configuration {
     public function __construct() {
         $this->basePath = '';
         $this->environment = '';
+        $this->debugMode = false;
     }
 
     public function setBasePath(string $path): self {
@@ -29,5 +31,14 @@ class Configuration {
 
     public function getEnvironment(): string {
         return $this->environment;
+    }
+
+    public function setDebugMode(bool $debug): self {
+        $this->debugMode = $debug;
+        return $this;
+    }
+
+    public function isDebugMode(): bool {
+        return $this->debugMode;
     }
 }
