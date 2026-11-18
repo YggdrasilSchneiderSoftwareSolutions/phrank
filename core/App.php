@@ -24,8 +24,10 @@ class App {
         $callback($this->config);
         if ($this->config->isDebugMode()) {
             echo "Configuration set:<br>";
-            echo "BasePath: " . $this->config->getBasePath() . "<br>";
-            echo "Environment: " . $this->config->getEnvironment() . "<br><br>";
+            foreach ($this->config->getAll() as $key => $value) {
+                echo "$key: $value<br>";
+            }
+            echo "<br>";
         }
     }
 
@@ -120,5 +122,9 @@ class App {
         if ($this->config->isDebugMode()) {
             echo "Registered route: $method $route<br>";
         }
+    }
+
+    public function getConfig(): Configuration {
+        return $this->config;
     }
 }

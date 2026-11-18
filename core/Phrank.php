@@ -96,6 +96,15 @@ function options(string $path, callable $handler) {
 }
 
 /**
+ * Get all configuration settings
+ * @return array The configuration settings
+ */
+function settings() {
+    global $app;
+    return $app->getConfig()->getAll();
+}
+
+/**
  * Run the application
  */
 function run() {

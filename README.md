@@ -55,14 +55,17 @@ post('/api', function () {
 
 ## Configuration and filters
 
-Use `configure()` to set the base path, environment, and debug mode. The `before()` filter runs before route matching and the handler; `after()` runs after route dispatch, including when no route matches. They are useful for shared request setup and post-request tasks.
+Use `configure()` to set the base path, environment, debug mode, and custom settings. Framework settings and custom values are stored together. Add a custom value with `$config->set()` inside the configuration callback, then read the settings array with `settings()` and access values by key. The `before()` filter runs before route matching and the handler; `after()` runs after route dispatch, including when no route matches. They are useful for shared request setup and post-request tasks.
 
 ```php
 configure(function ($config) {
     $config->setBasePath('/api');
     $config->setEnvironment('production');
     $config->setDebugMode(false);
+    $config->set('appName', 'Phrank');
 });
+
+$appName = settings()['appName'] ?? null;
 
 before(function () {
     header('Content-Type: application/json');

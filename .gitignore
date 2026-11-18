@@ -1,0 +1,33 @@
+# Composer dependencies
+/vendor/
+
+# Composer lock file
+composer.lock
+
+# PHPStorm project files
+.idea/
+
+# MacOS system files
+.DS_Store
+
+# Log files
+*.log
+
+# Cache directories
+/cache/
+/tmp/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# PHPUnit result cache
+.phpunit.result.cache
+
+# Coverage reports
+coverage/
+
+# User-specific files
+*.swp
+*.swo

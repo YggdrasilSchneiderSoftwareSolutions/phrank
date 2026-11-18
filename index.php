@@ -2,9 +2,10 @@
 require_once __DIR__ . '/core/Phrank.php';
 
 configure(function($config) {
-    $config->setBasePath('/phrank');
-    $config->setEnvironment('development');
-    $config->setDebugMode(true);
+    $config->setBasePath('/phrank')
+           ->setEnvironment('development')
+           ->setDebugMode(true)
+           ->set('user', 'Frank');
 });
 
 before(function() {
@@ -23,7 +24,7 @@ get('/', function() {
 });
 
 get('/hello', function() {
-    $name = $_GET['name'] ?? 'World';
+    $name = $_GET['name'] ?? settings()['user'] ?? 'World';
     echo "<h4>Hello, $name!</h4>";
 });
 
